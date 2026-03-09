@@ -1,0 +1,5 @@
+# Python packages required for the project
+# Pinning versions ensures tests run consistently
+Flask==2.3.2
+pytest==9.0.2
+pytest-flask==1.2.0
