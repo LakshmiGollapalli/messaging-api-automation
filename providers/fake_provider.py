@@ -19,6 +19,7 @@ class FakeProvider(BaseProvider):
             return {
                 "provider_id": f"fake_{random.randint(1000,9999)}",
                 "status": "ACCEPTED"
+
             }
         else:
             return {

@@ -118,14 +118,15 @@ def test_webhook_update_success(client):
 
     webhook_response = client.post("/delivery-update", json={
         "provider_id": provider_id,
-        "status": "DELIVERED"
+        "status": "DELIVERED",
+        "timestamp": "2026-03-11T10:15:00Z"
     })
 
     assert webhook_response.status_code == 200
 
     updated_data = webhook_response.get_json()
     assert updated_data["status"] == "DELIVERED"
-
+    print(updated_data)
 
 def test_webhook_invalid_provider(client):
     """

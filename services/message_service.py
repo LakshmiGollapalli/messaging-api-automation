@@ -68,7 +68,7 @@ class MessageService:
 
         return message, 200
 
-    def update_status(self, provider_id, status):
+    def update_status(self, provider_id, status, timestamp=None):
         """
         Simulates webhook update.
 
@@ -85,6 +85,7 @@ class MessageService:
                     return {"error": "Cannot update failed message"}, 400
 
                 msg["status"] = status
+                msg["updated_at"] = timestamp
                 return msg, 200
 
         return {"error": "Provider ID not found"}, 404

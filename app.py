@@ -53,7 +53,8 @@ def webhook_update():
     data = request.json
     response, status = service.update_status(
         data.get("provider_id"),
-        data.get("status")
+        data.get("status"),
+        data.get("timestamp")
     )
     return jsonify(response), status
 
