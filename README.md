@@ -109,7 +109,9 @@ The automated tests validate:
    - Randomly simulates `ACCEPTED` or `FAILED` response  
    - No external network calls required  
    - Demonstrates dependency injection and testable architecture
-
+5. **Tests**  
+   - Pytest test cases include **xfail** for expected provider failures  
+   - Positive and negative scenarios, webhook simulation, status validation  
 ---
 
 ## Status Codes Used

@@ -7,6 +7,7 @@ It:
 - Stores message in memory
 - Handles status transitions
 """
+from datetime import datetime,timezone
 
 class MessageService:
 
@@ -50,7 +51,9 @@ class MessageService:
             "receiver": receiver,
             "content": content,
             "status": "SENT",  # Initial internal state
-            "provider_id": provider_response["provider_id"]
+            "provider_id": provider_response["provider_id"],
+             "created_at": datetime.now(timezone.utc),  # timezone-aware
+             "updated_at": datetime.now(timezone.utc)
         }
 
         return self.messages[message_id], 201
@@ -85,7 +88,8 @@ class MessageService:
                     return {"error": "Cannot update failed message"}, 400
 
                 msg["status"] = status
-                msg["updated_at"] = timestamp
+                # Use provided timestamp if exists, else UTC now
+                msg["updated_at"] = timestamp if timestamp else datetime.now(timezone.utc)
                 return msg, 200
 
         return {"error": "Provider ID not found"}, 404
