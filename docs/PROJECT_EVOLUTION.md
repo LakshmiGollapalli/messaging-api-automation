@@ -52,28 +52,28 @@ Provides better traceability and prepares the system for future database persist
 ## Sprint 2 – Multiple Providers and Centralized Logging
 
 ### Changes
-- Introduced support for multiple providers:
+
+- Introduced support for multiple message providers:
   - `ReliableMessageProvider`
   - `FastMessageProvider`
-- Provider selection made configurable using environment variables.
-- Removed hardcoded provider initialization from `app.py`.
-- Added centralized logging across the application.
-- Implemented masking of sensitive data (recipient phone numbers) in logs.
+
+- Removed the earlier `FakeProvider` implementation used during initial development.
+- Updated the provider layer so that `MessageService` can dynamically load the configured provider.
+- Provider selection is controlled through configuration (environment variable).
 
 ### Logging Improvements
-Logging was added to the following components:
 
-- `MessageService`
-- Provider classes
-- Webhook delivery updates
+- Added centralized logging across the application.
+- Logging introduced in:
+  - `MessageService`
+  - Provider classes
+  - Webhook delivery updates
 
-Sensitive data is masked to prevent exposure in logs.
+- Sensitive data such as recipient phone numbers is masked in logs (all digits masked except last four).
 
-### Benefit
-- Improves system observability.
-- Enables flexible provider selection without code changes.
-- Simulates production-grade logging practices.
+### Purpose
 
+This change simulates real-world integrations with external messaging providers while improving system observability through structured logging.
 ---
 
 ## Future Enhancements
