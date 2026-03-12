@@ -37,7 +37,7 @@ def test_create_valid_message(client):
     data = response.get_json()
     assert "id" in data
     assert data["status"] == "SENT"
-    print(data)
+
 
 
 def test_invalid_phone_number(client):
@@ -55,7 +55,7 @@ def test_invalid_phone_number(client):
     })
 
     assert response.status_code == 400
-    print(response.get_json())
+
 
 
 def test_empty_content(client):
@@ -72,7 +72,7 @@ def test_empty_content(client):
     })
 
     assert response.status_code == 400
-    print(response.get_json())
+
 # ---------------------------------------------------
 # Test: Get existing message (depends on message being created)
 # ---------------------------------------------------
@@ -95,7 +95,7 @@ def test_get_existing_message(client):
     get_response = client.get(f"/messages/{message_id}")
 
     assert get_response.status_code == 200
-    print(get_response.get_json())
+
 
 def test_get_non_existing_message(client):
     """
@@ -107,7 +107,7 @@ def test_get_non_existing_message(client):
 
     response = client.get("/messages/9999")
     assert response.status_code == 404
-    print(response.get_json())
+
 
 # ---------------------------------------------------
 # Test: Webhook / update status (provider may fail randomly)
@@ -144,7 +144,7 @@ def test_webhook_update_success(client):
     updated_data = webhook_response.get_json()
 
     assert updated_data["status"] == "DELIVERED"
-    print(updated_data)
+
 
 def test_webhook_invalid_provider(client):
     """
@@ -160,4 +160,4 @@ def test_webhook_invalid_provider(client):
     })
 
     assert response.status_code == 404
-    print(response.get_json())
+

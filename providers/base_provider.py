@@ -2,7 +2,7 @@
 # We keep it abstract so we can plug in FakeProvider for testing.
 
 class BaseProvider:
-    def send(self, message):
+    def send(self, receiver, content):
         """
         Sends a message to external provider.
 

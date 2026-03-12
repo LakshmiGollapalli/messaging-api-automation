@@ -8,13 +8,47 @@ It:
 - Handles status transitions
 """
 from datetime import datetime,timezone
+import os
+import json
+from providers.reliable_message_provider import ReliableMessageProvider
+from providers.fast_message_provider import FastMessageProvider
+from utils.logger import get_logger
+logger = get_logger(__name__)
 
 class MessageService:
 
-    def __init__(self, provider):
-        self.provider = provider
+
+    def __init__(self):
+        self.providers = self.load_providers()
         self.messages = {}  # In-memory storage (acts like database)
         self.current_id = 1
+
+    def load_providers(self):
+        """Load provider instances from config file"""
+        with open("config/providers_config.json") as f:
+            config = json.load(f)
+
+        provider_instances = []
+        for p_name in config.get("providers", []):
+            if p_name == "ReliableMessageProvider":
+                provider_instances.append(ReliableMessageProvider())
+            elif p_name == "FastMessageProvider":
+                provider_instances.append(FastMessageProvider())
+            # future providers: add elif
+
+        return provider_instances
+
+    def select_provider(self):
+        """Select provider dynamically: from environment variable (Jenkins) or default first provider"""
+        provider_name = os.getenv("PROVIDER_NAME")  # Jenkins can pass this
+
+
+        if provider_name:
+            for p in self.providers:
+                if p.__class__.__name__ == provider_name:
+                    return p
+        # fallback to first provider in config
+        return self.providers[0] if self.providers else None
 
     def create_message(self, receiver, content):
         """
@@ -27,19 +61,27 @@ class MessageService:
         """
 
         # Basic validation
-
+        logger.info("Creating message for receiver", receiver=receiver)
         if not receiver.isdigit() or len(receiver) != 10:
             return {"error": "Invalid phone number"}, 400
 
         if not content:
             return {"error": "Content cannot be empty"}, 400
 
-        # Send to provider
-        provider_response = self.provider.send(content)
+        """Send message via selected provider"""
+        provider = self.select_provider()
+
+        if not provider:
+            return {"status": "FAILED", "error": "No provider available", "provider_id": None}
+        provider_response = provider.send(receiver,content)
+        logger.info("Provider response: ", provider_response = provider_response)
+        # Send to provider -- old logic
+        # provider_response = self.provider.send(content)
 
         if provider_response["status"] == "FAILED":
             # 503 Service Unavailable
             # Used when external dependency fails
+            logger.error("Provider failed to send message of receiver", receiver=receiver)
             return {"error": "Provider failure"}, 503
 
         message_id = self.current_id
@@ -79,7 +121,7 @@ class MessageService:
         404 -> Provider ID not found
         400 -> Invalid status transition
         """
-
+        logger.info("Updating message status for provider_id ",provider_id = provider_id)
         for msg in self.messages.values():
             if msg["provider_id"] == provider_id:
 
@@ -90,6 +132,7 @@ class MessageService:
                 msg["status"] = status
                 # Use provided timestamp if exists, else UTC now
                 msg["updated_at"] = timestamp if timestamp else datetime.now(timezone.utc)
+                logger.info(f"Message status updated to {status}")
                 return msg, 200
 
         return {"error": "Provider ID not found"}, 404

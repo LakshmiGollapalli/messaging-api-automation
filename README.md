@@ -15,7 +15,7 @@ It is designed to focus on:
 - Webhook simulation
 - Test automation using `pytest`
 
-The external provider is **simulated using a fake provider**, making the project self-contained .
+
 
 ---
 ## Technologies Used
@@ -105,11 +105,27 @@ The automated tests validate:
    - Updates message status (`SENT → DELIVERED`)  
    - Returns `200 OK`, `404` if provider_id not found, `400` for invalid state transitions
 
-4. **Fake Provider**  
-   - Randomly simulates `ACCEPTED` or `FAILED` response  
-   - No external network calls required  
-   - Demonstrates dependency injection and testable architecture
-5. **Tests**  
+ 4.  **Config-Driven Multiple Providers**
+- `MessageService` dynamically selects provider(s) based on **config.yaml** or `PROVIDER_NAME` environment variable.  
+- Current simulated providers:  
+    - `ReliableMessageProvider`  
+    - `FastMessageProvider`  
+- **Benefit:** easily extend to new providers without changing `MessageService` or tests.
+
+ 5. **Logging and Masking**
+
+    - Centralized logger captures:  
+        - `request_id` (API request)  
+        - `message_id` (individual message)  
+        - Provider responses and status updates  
+- Sensitive information (e.g., recipient phone number, message content) is **masked** before logging.  
+- Logger is used in:  
+  - `MessageService` (all message creation, updates, provider calls)  
+  - Each Provider (`send_message`)  
+  - Webhook updates  
+
+- **Benefit:** traceable, secure, and future-ready for production monitoring.
+6. **Tests**  
    - Pytest test cases include **xfail** for expected provider failures  
    - Positive and negative scenarios, webhook simulation, status validation  
 ---
@@ -149,12 +165,20 @@ venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 ```
 
+4. set environment to provider of choice.In future enhancements we set this variable in Jenkins
+```
+export PROVIDER_NAME=ReliableMessageProvider
+or
+export PROVIDER_NAME=FastMessageProvider
+```
 ## Running Tests
 
 Run all tests using:
 
 ```bash
 pytest -v
+pytest -v -s 
+to get logging information for debugging
 ```
 
 The test suite includes:
@@ -170,6 +194,6 @@ The test suite includes:
 - Add message retry mechanism for provider failures
 - Add asynchronous queue 
 - Add API authentication
-- Add logging and monitoring
+- Add  monitoring
 - Add CI pipeline using Jenkins or GitHub Actions
 - Add test coverage reporting

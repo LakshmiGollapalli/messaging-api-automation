@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
 from services.message_service import MessageService
-from providers.fake_provider import FakeProvider
 
 app = Flask(__name__)
-
+# old logic tag v1.0
 # Inject FakeProvider into service (Dependency Injection)
-provider = FakeProvider()
-service = MessageService(provider)
+# provider = FakeProvider()
+# service = MessageService(provider)
 
+
+# Initialize MessageService; it will read providers from config
+service = MessageService()
 
 @app.route("/messages", methods=["POST"])
 def send_message():
