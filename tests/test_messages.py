@@ -39,7 +39,6 @@ def test_create_valid_message(client):
     assert data["status"] == "SENT"
 
 
-
 def test_invalid_phone_number(client):
     """
     Test invalid phone number.
@@ -55,7 +54,6 @@ def test_invalid_phone_number(client):
     })
 
     assert response.status_code == 400
-
 
 
 def test_empty_content(client):
@@ -76,6 +74,8 @@ def test_empty_content(client):
 # ---------------------------------------------------
 # Test: Get existing message (depends on message being created)
 # ---------------------------------------------------
+
+
 @pytest.mark.xfail(reason="Provider may randomly fail or ID may not exist on first run")
 def test_get_existing_message(client):
     """
@@ -160,4 +160,3 @@ def test_webhook_invalid_provider(client):
     })
 
     assert response.status_code == 404
-

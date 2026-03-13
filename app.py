@@ -11,6 +11,7 @@ app = Flask(__name__)
 # Initialize MessageService; it will read providers from config
 service = MessageService()
 
+
 @app.route("/messages", methods=["POST"])
 def send_message():
     """

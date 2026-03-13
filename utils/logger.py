@@ -2,7 +2,8 @@ import logging
 import os
 from datetime import datetime
 
-SENSITIVE_FIELDS = ["receiver", "phone","content"]
+SENSITIVE_FIELDS = ["receiver", "phone", "content"]
+
 
 def mask_sensitive(data):
     """
@@ -64,6 +65,7 @@ class MaskedLogger:
 
 # configure logging once
 setup_logging()
+
 
 def get_logger(name):
     return MaskedLogger(name)

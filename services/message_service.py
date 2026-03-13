@@ -8,16 +8,17 @@ It:
 - Handles status transitions
 """
 import uuid
-from datetime import datetime,timezone
+from datetime import datetime, timezone
 import os
 import json
 from providers.reliable_message_provider import ReliableMessageProvider
 from providers.fast_message_provider import FastMessageProvider
 from utils.logger import get_logger
+
 logger = get_logger(__name__)
 
-class MessageService:
 
+class MessageService:
 
     def __init__(self):
         self.providers = self.load_providers()
@@ -40,9 +41,13 @@ class MessageService:
         return provider_instances
 
     def select_provider(self):
-        """Select provider dynamically: from environment variable (Jenkins) or default first provider"""
-        provider_name = os.getenv("PROVIDER_NAME")  # Jenkins can pass this
+        """
+        Select provider dynamically:
+         from environment variable (Jenkins)
+          or default first provider
 
+        """
+        provider_name = os.getenv("PROVIDER_NAME")  # Jenkins can pass this
 
         if provider_name:
             for p in self.providers:
@@ -74,8 +79,9 @@ class MessageService:
 
         if not provider:
             return {"status": "FAILED", "error": "No provider available", "provider_id": None}
-        provider_response = provider.send(receiver,content)
-        logger.info("Provider response: ", provider_response = provider_response["status"], provider_id = provider_response["provider_id"])
+        provider_response = provider.send(receiver, content)
+        logger.info("Provider response: ", provider_response=provider_response["status"],
+                    provider_id=provider_response["provider_id"])
         # Send to provider -- old logic
         # provider_response = self.provider.send(content)
 
@@ -97,10 +103,10 @@ class MessageService:
             "content": content,
             "status": "SENT",  # Initial internal state
             "provider_id": provider_response["provider_id"],
-             "created_at": datetime.now(timezone.utc),  # timezone-aware
-             "updated_at": datetime.now(timezone.utc)
+            "created_at": datetime.now(timezone.utc),  # timezone-aware
+            "updated_at": datetime.now(timezone.utc)
         }
-        logger.info("Message created ",message_id=message_id, request_id=request_id)
+        logger.info("Message created ", message_id=message_id, request_id=request_id)
 
         return self.messages[message_id], 201
 
@@ -125,7 +131,7 @@ class MessageService:
         404 -> Provider ID not found
         400 -> Invalid status transition
         """
-        logger.info("Updating message status for provider_id ",provider_id = provider_id)
+        logger.info("Updating message status for provider_id ", provider_id=provider_id)
         for msg in self.messages.values():
             if msg["provider_id"] == provider_id:
 
@@ -136,7 +142,10 @@ class MessageService:
                 msg["status"] = status
                 # Use provided timestamp if exists, else UTC now
                 msg["updated_at"] = timestamp if timestamp else datetime.now(timezone.utc)
-                logger.info("Webhook update ", message_id=msg["id"], request_id=msg["request_id"], status=status)
+                logger.info("Webhook update ",
+                            message_id=msg["id"],
+                            request_id=msg["request_id"],
+                            status=status)
                 return msg, 200
 
         return {"error": "Provider ID not found"}, 404
