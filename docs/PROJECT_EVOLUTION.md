@@ -133,6 +133,31 @@ Message created  message_id=1 request_id=21cd569c-e083-4125-a702-7b20799de530
 - Easier log searching and filtering
 - Log files organized by date
 - Better correlation of events using `request_id`
+## Sprint 4 – Continuous Integration (CI)
+
+Introduced automated CI pipeline using **GitHub Actions** to ensure code quality and test reliability.
+
+### Key Enhancements
+
+- Added **GitHub Actions workflow** (`.github/workflows/ci.yml`)
+- Automated execution of:
+  - **Flake8** for static code analysis
+  - **Pytest** for running test suite
+- Added `.flake8` configuration file to define linting rules
+- Ensured CI pipeline runs on repository pushes and pull requests
+- Fixed dependency compatibility by pinning **Werkzeug version** with Flask
+
+### CI Pipeline Flow
+
+1. Checkout repository
+2. Setup Python runtime
+3. Install project dependencies
+4. Run static code analysis (Flake8)
+5. Execute automated tests (Pytest)
+
+### Outcome
+
+The project now supports **automated validation of code quality and functionality**, ensuring new changes do not introduce regressions.
 ## Future Enhancements
 
 Planned improvements to continue evolving the system:

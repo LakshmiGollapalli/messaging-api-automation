@@ -13,7 +13,6 @@ This file contains API-level test cases for:
 import pytest
 from datetime import datetime, timezone
 
-
 # ---------------------------------------------------
 # Test: Create message (may fail randomly due to provider)
 # ---------------------------------------------------

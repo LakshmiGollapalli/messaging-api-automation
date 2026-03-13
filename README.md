@@ -128,8 +128,46 @@ The automated tests validate:
 6. **Tests**  
    - Pytest test cases include **xfail** for expected provider failures  
    - Positive and negative scenarios, webhook simulation, status validation  
----
 
+
+7. ** Continuous Integration (CI)**
+
+The project uses **GitHub Actions** to automatically validate code quality and tests on every push and pull request.
+
+### CI Pipeline Steps
+The pipeline performs the following checks:
+
+1. **Checkout repository**
+2. **Setup Python environment**
+3. **Install dependencies** from `requirements.txt`
+4. **Run Flake8 static analysis**
+5. **Run Pytest test suite**
+
+### Tools Used
+- **GitHub Actions** – CI automation
+- **Flake8** – Python style and lint checking
+- **Pytest** – Unit and API testing
+- **pytest-flask** – Flask application testing support
+
+### Configuration Files
+
+CI workflow:
+
+.github/workflows/ci.yml
+
+Flake8 configuration:
+
+.flake8
+
+
+### Purpose of CI
+The CI pipeline ensures that:
+
+- Code follows Python style guidelines
+- Tests pass before merging changes
+- Regressions are detected early
+- Code quality remains consistent across contributions
+---
 ## Status Codes Used
 
 | HTTP Code | Meaning | Where Used |
