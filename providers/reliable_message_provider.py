@@ -11,7 +11,7 @@ class ReliableMessageProvider(BaseProvider):
 
     def send(self, receiver, content):
         # Randomly accept or fail the message to simulate real provider behavior
-        logger.info("Sending message", receiver=receiver, content=content)
+        logger.info("Sending message", receiver=receiver)
         # provider_id is unique per message, even for the same provider.
         # It represents the provider's internal ID for this message.
         # This is used to track delivery status via webhook.

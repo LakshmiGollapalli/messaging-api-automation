@@ -11,7 +11,7 @@ logger = get_logger(__name__)
 class FastMessageProvider(BaseProvider):
     def send(self, receiver, content):
         # Randomly accept or fail the message
-        logger.info("Sending message", receiver=receiver, content=content)
+        logger.info("Sending message", receiver=receiver)
         # provider_id is unique per message, even for the same provider.
         # It represents the provider's internal ID for this message.
         # This is used to track delivery status via webhook.

@@ -7,6 +7,7 @@ It:
 - Stores message in memory
 - Handles status transitions
 """
+import uuid
 from datetime import datetime,timezone
 import os
 import json
@@ -74,7 +75,7 @@ class MessageService:
         if not provider:
             return {"status": "FAILED", "error": "No provider available", "provider_id": None}
         provider_response = provider.send(receiver,content)
-        logger.info("Provider response: ", provider_response = provider_response)
+        logger.info("Provider response: ", provider_response = provider_response["status"], provider_id = provider_response["provider_id"])
         # Send to provider -- old logic
         # provider_response = self.provider.send(content)
 
@@ -87,9 +88,11 @@ class MessageService:
         message_id = self.current_id
         self.current_id += 1
 
+        request_id = str(uuid.uuid4())
         # Store message
         self.messages[message_id] = {
             "id": message_id,
+            "request_id": request_id,
             "receiver": receiver,
             "content": content,
             "status": "SENT",  # Initial internal state
@@ -97,6 +100,7 @@ class MessageService:
              "created_at": datetime.now(timezone.utc),  # timezone-aware
              "updated_at": datetime.now(timezone.utc)
         }
+        logger.info("Message created ",message_id=message_id, request_id=request_id)
 
         return self.messages[message_id], 201
 
@@ -132,7 +136,7 @@ class MessageService:
                 msg["status"] = status
                 # Use provided timestamp if exists, else UTC now
                 msg["updated_at"] = timestamp if timestamp else datetime.now(timezone.utc)
-                logger.info(f"Message status updated to {status}")
+                logger.info("Webhook update ", message_id=msg["id"], request_id=msg["request_id"], status=status)
                 return msg, 200
 
         return {"error": "Provider ID not found"}, 404

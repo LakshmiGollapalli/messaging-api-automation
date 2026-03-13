@@ -71,16 +71,73 @@ Provides better traceability and prepares the system for future database persist
 
 - Sensitive data such as recipient phone numbers is masked in logs (all digits masked except last four).
 
-### Purpose
-
-This change simulates real-world integrations with external messaging providers while improving system observability through structured logging.
+- This change simulates real-world integrations with external messaging providers while improving system observability through structured logging.
 ---
 
+## Sprint 3 – Request Tracking and Enhanced Logging
+
+### Problem
+As the system evolved with multiple providers and asynchronous webhook updates, debugging message flows became harder. Logs needed better traceability and structure to help identify issues across different components.
+
+### Solution
+Introduced request-level tracking and improved the logging system for better observability.
+
+---
+
+### Request ID Tracking
+
+A `request_id` is generated for each incoming API request. This allows multiple messages created from the same request to be correlated in logs and system traces.
+
+Each message stored in the `messages` dictionary now contains:
+
+- `message_id`
+- `request_id`
+- `receiver`
+- `content`
+- `status`
+- `provider_id`
+
+Webhook updates continue to use `message_id` to update message status.
+
+---
+
+### Logging Improvements
+
+#### 1. Daily Log Files
+
+Logs are written to a file with the current date appended to the filename.
+
+Example:
+logs/app_2026-03-13.log
+logs/app_2026-03-14.log
+
+Logs are appended to the existing file during each run instead of overwriting previous logs.
+
+---
+
+#### 2. Structured Logging (Key–Value Format)
+
+Logs were previously printed using dictionary format.
+
+Example (old format):
+Creating message for receiver {'receiver': '****3210'}
+
+This was replaced with **structured key–value logging**, which is easier to search and analyze in log aggregation systems.
+
+Example (new format):
+Message created  message_id=1 request_id=21cd569c-e083-4125-a702-7b20799de530
+
+### Benefits
+
+- Improved debugging and traceability
+- Easier log searching and filtering
+- Log files organized by date
+- Better correlation of events using `request_id`
 ## Future Enhancements
 
 Planned improvements to continue evolving the system:
 
-- Add **request ID tracing** for end-to-end request tracking.
+
 - Introduce **database persistence** instead of in-memory storage.
 - Implement **retry mechanisms** for provider failures.
 - Add **CI/CD pipeline integration** (e.g., automated testing and deployment).

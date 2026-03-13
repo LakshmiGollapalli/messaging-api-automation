@@ -118,12 +118,12 @@ The automated tests validate:
         - `request_id` (API request)  
         - `message_id` (individual message)  
         - Provider responses and status updates  
-- Sensitive information (e.g., recipient phone number, message content) is **masked** before logging.  
+- Sensitive information (e.g., recipient phone number, receiver) is **masked** before logging.  
 - Logger is used in:  
   - `MessageService` (all message creation, updates, provider calls)  
   - Each Provider (`send_message`)  
   - Webhook updates  
-
+  - Logs are written to a file with the current date appended to the filename.
 - **Benefit:** traceable, secure, and future-ready for production monitoring.
 6. **Tests**  
    - Pytest test cases include **xfail** for expected provider failures  
