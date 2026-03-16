@@ -6,11 +6,9 @@ Fixtures help us avoid repeating setup code in every test.
 """
 
 import pytest
-import sys
-import os
-from app import app as flask_app
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from app import app as flask_app
 
 
 @pytest.fixture

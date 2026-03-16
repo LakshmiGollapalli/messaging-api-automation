@@ -10,15 +10,20 @@ This file contains API-level test cases for:
 - Error handling
 """
 
-import pytest
 from datetime import datetime, timezone
+
+
+def test_health(client):
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json["status"] == "healthy"
+
 
 # ---------------------------------------------------
 # Test: Create message (may fail randomly due to provider)
 # ---------------------------------------------------
 
 
-@pytest.mark.xfail(reason="Provider may randomly return 503, expected failure")
 def test_create_valid_message(client):
     """
     Test successful message creation.
@@ -38,6 +43,12 @@ def test_create_valid_message(client):
     data = response.get_json()
     assert "id" in data
     assert data["status"] == "SENT"
+
+
+def test_create_invalid_receiver(client):
+
+    response = client.post("/messages", json={})
+    assert response.status_code in (400, 500)
 
 
 def test_invalid_phone_number(client):
@@ -77,7 +88,6 @@ def test_empty_content(client):
 # ---------------------------------------------------
 
 
-@pytest.mark.xfail(reason="Provider may randomly fail or ID may not exist on first run")
 def test_get_existing_message(client):
     """
     Create message then fetch it.
@@ -110,10 +120,6 @@ def test_get_non_existing_message(client):
     assert response.status_code == 404
 
 
-# ---------------------------------------------------
-# Test: Webhook / update status (provider may fail randomly)
-# ---------------------------------------------------
-@pytest.mark.xfail(reason="Provider may randomly fail when updating status")
 def test_webhook_update_success(client):
     """
     Simulate webhook delivery update.

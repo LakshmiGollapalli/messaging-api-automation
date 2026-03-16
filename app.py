@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from services.message_service import MessageService
-
+from error_handlers import register_error_handlers
 app = Flask(__name__)
 # old logic tag v1.0
 # Inject FakeProvider into service (Dependency Injection)
@@ -10,6 +10,25 @@ app = Flask(__name__)
 
 # Initialize MessageService; it will read providers from config
 service = MessageService()
+register_error_handlers(app)
+
+@app.route("/")
+def root():
+    return {
+        "service": "message-service",
+        "version": "1.0",
+        "status": "running"
+    }, 200
+
+@app.route("/health", methods=["GET"])
+def health():
+    return {
+        "status": "healthy",
+        "service": "message system",
+        "providers": [
+            "FastMessageProvider",
+            "ReliableMessageProvider"]
+    }, 200
 
 
 @app.route("/messages", methods=["POST"])

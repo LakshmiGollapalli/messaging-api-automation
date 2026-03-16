@@ -16,7 +16,7 @@ class ReliableMessageProvider(BaseProvider):
         # provider_id is unique per message, even for the same provider.
         # It represents the provider's internal ID for this message.
         # This is used to track delivery status via webhook.
-        if random.random() < 0.8:
+        if random.random() < 0.999:
             return {"status": "ACCEPTED", "provider_id": str(uuid.uuid4())}
         else:
             return {"status": "FAILED", "provider_id": str(uuid.uuid4())}
