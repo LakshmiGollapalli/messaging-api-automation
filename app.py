@@ -12,6 +12,7 @@ app = Flask(__name__)
 service = MessageService()
 register_error_handlers(app)
 
+
 @app.route("/")
 def root():
     return {
@@ -19,6 +20,7 @@ def root():
         "version": "1.0",
         "status": "running"
     }, 200
+
 
 @app.route("/health", methods=["GET"])
 def health():
