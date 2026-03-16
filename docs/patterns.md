@@ -32,6 +32,20 @@
 4. Stores message in **in-memory dictionary**  
 5. Webhook update changes message status (`SENT → DELIVERED`) with timestamp  
 
-### 7. AI-Assisted Guidance
+## 7. Exception Handling Pattern
+
+- Implemented global exception handler using Flask `@app.errorhandler`.
+- Standardized error response format.
+- Ensures consistent API behavior across endpoints.
+
+## 8. Logging Pattern
+
+- Custom logger wrapper implemented.
+- Sensitive data masking applied before logging.
+- Structured log format used:
+  timestamp | level | module | message
+- Designed to support future file-based logging and cloud deployment.
+
+### 9. AI-Assisted Guidance
 - Design and test approaches were refined with **AI-assisted guidance**  
 - **Benefit:** demonstrates ability to leverage modern tools for learning and productivity  

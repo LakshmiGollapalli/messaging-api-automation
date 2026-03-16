@@ -158,6 +158,20 @@ Introduced automated CI pipeline using **GitHub Actions** to ensure code quality
 ### Outcome
 
 The project now supports **automated validation of code quality and functionality**, ensuring new changes do not introduce regressions.
+
+## Sprint 5 – Exception Handling & CI Improvements
+
+### Added:
+- Centralized exception handling
+- Health check endpoint and also added root / endpoint
+- Improved pytest configuration
+- GitHub Actions CI pipeline
+- Logging improvements
+
+### Notes:
+- Tests run automatically on push to main branch
+- Code quality enforced using flake8 in CI
+
 ## Future Enhancements
 
 Planned improvements to continue evolving the system:
@@ -170,11 +184,3 @@ Planned improvements to continue evolving the system:
 
 ---
 
-## Summary
-
-This project demonstrates how a messaging service can evolve from a simple prototype into a more production-ready system by gradually introducing:
-
-- Better architecture
-- Configurable integrations
-- Observability improvements
-- Extensibility for future enhancements

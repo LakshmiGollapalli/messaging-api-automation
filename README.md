@@ -125,15 +125,16 @@ The automated tests validate:
   - Webhook updates  
   - Logs are written to a file with the current date appended to the filename.
 - **Benefit:** traceable, secure, and future-ready for production monitoring.
-6. **Tests**  
+ 6. **Tests**  
    - Pytest test cases include **xfail** for expected provider failures  
-   - Positive and negative scenarios, webhook simulation, status validation  
-
-
-7. ** Continuous Integration (CI)**
-
-The project uses **GitHub Actions** to automatically validate code quality and tests on every push and pull request.
-
+   - Positive and negative scenarios, webhook simulation, status validation
+   
+ 7. **Continuous Integration (CI)**
+   - The project uses **GitHub Actions** to automatically validate code quality and tests on every push and pull request.
+ 8. **Centralised  exceptional handling**
+   - Project utilises centralized exception handling.
+     
+     
 ### CI Pipeline Steps
 The pipeline performs the following checks:
 
@@ -167,6 +168,9 @@ The CI pipeline ensures that:
 - Tests pass before merging changes
 - Regressions are detected early
 - Code quality remains consistent across contributions
+
+GitHub automatically runs CI pipeline and runs lint and  pytest regression whenever new changes are pushed to github
+
 ---
 ## Status Codes Used
 
@@ -233,5 +237,4 @@ The test suite includes:
 - Add asynchronous queue 
 - Add API authentication
 - Add  monitoring
-- Add CI pipeline using Jenkins or GitHub Actions
 - Add test coverage reporting
