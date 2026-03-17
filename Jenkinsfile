@@ -26,5 +26,12 @@ pipeline {
                 bat 'pytest -v'
             }
         }
+
+        stage('Deploy') {
+            steps {
+                 echo 'Deploying application...'
+                 bat 'start /B python app.py'
+            }
+        }
     }
 }
