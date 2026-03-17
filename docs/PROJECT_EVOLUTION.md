@@ -172,6 +172,18 @@ The project now supports **automated validation of code quality and functionalit
 - Tests run automatically on push to main branch
 - Code quality enforced using flake8 in CI
 
+## Sprint 6 – Jenkins CI Implementation
+
+### Enhancements:
+- Introduced Jenkins pipeline for CI.
+- Automated build, lint, and test execution.
+- Integrated repository with Jenkins.
+
+### Impact:
+- Improved automation and build reliability.
+- Introduced industry-standard CI tool.
+- Strengthened DevOps capabilities.
+- 
 ## Future Enhancements
 
 Planned improvements to continue evolving the system:

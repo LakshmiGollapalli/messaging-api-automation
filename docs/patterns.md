@@ -49,3 +49,12 @@
 ### 9. AI-Assisted Guidance
 - Design and test approaches were refined with **AI-assisted guidance**  
 - **Benefit:** demonstrates ability to leverage modern tools for learning and productivity  
+
+## 10. CI Pipeline Pattern (Jenkins)
+
+- Pipeline defined using Jenkins file.
+- Stages include:
+  - Dependency installation
+  - Lint validation
+  - Test execution
+- Ensures code quality before integration.

@@ -172,6 +172,23 @@ The CI pipeline ensures that:
 GitHub automatically runs CI pipeline and runs lint and  pytest regression whenever new changes are pushed to github
 
 ---
+## Jenkins CI 
+
+- Implemented CI pipeline using Jenkins.
+- Pipeline stages:
+  - Install dependencies
+  - Run lint checks (flake8)
+  - Execute tests (pytest)
+- Integrated with GitHub repository.
+- Supports automated build execution.
+
+
+## CI/CD Strategy
+
+- GitHub Actions used for lightweight CI on every commit.
+- Jenkins used for pipeline-based CI to simulate enterprise workflows.
+- Jenkins pipeline designed to be extended for CD (deployment).
+
 ## Status Codes Used
 
 | HTTP Code | Meaning | Where Used |
