@@ -29,11 +29,14 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                 echo 'Stopping existing app (if running)...'
+                 bat 'taskkill /F /IM python.exe || exit 0'
                  echo 'Deploying application...'
                  dir('messaging-api-automation') {
                      bat 'python app.py'
-                     }
+                 }
+
             }
         }
-    }
-}
+  }
+  }
