@@ -31,7 +31,7 @@ pipeline {
             steps {
                  echo 'Deploying application...'
                  dir('messaging-api-automation') {
-                     bat 'start /B python app.py'
+                     bat 'python app.py'
                      }
             }
         }
