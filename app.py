@@ -1,7 +1,16 @@
 from flask import Flask, request, jsonify
 from services.message_service import MessageService
 from error_handlers import register_error_handlers
-app = Flask(__name__)
+import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+INSTANCE_DIR = os.path.join(BASE_DIR, "instance")
+
+
+app = Flask(
+    __name__,
+    instance_path=INSTANCE_DIR,
+    instance_relative_config=True
+    )
 # old logic tag v1.0
 # Inject FakeProvider into service (Dependency Injection)
 # provider = FakeProvider()

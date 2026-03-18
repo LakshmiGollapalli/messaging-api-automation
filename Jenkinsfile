@@ -30,7 +30,9 @@ pipeline {
         stage('Deploy') {
             steps {
                  echo 'Deploying application...'
-                 bat 'start /B python app.py'
+                 dir('messaging-api-automation') {
+                     bat 'start /B python app.py'
+                     }
             }
         }
     }
