@@ -33,9 +33,8 @@ pipeline {
                  bat 'taskkill /F /IM python.exe || exit 0'
                  echo 'Deploying application...'
                  dir('messaging-api-automation') {
-                     bat 'python app.py'
+                     bat 'start "" python app.py'
                  }
-
             }
         }
   }
