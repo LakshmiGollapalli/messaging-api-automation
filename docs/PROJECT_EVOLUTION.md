@@ -184,14 +184,22 @@ The project now supports **automated validation of code quality and functionalit
 - Introduced industry-standard CI tool.
 - Strengthened DevOps capabilities.
 - 
+
+
+## Sprint 7 – Jenkins CD Implementation
+
+- Added deployment stage in Jenkins pipeline.
+- Automated application startup post CI.
+- Simulated real-world CI/CD workflow.
+
 ## Future Enhancements
 
 Planned improvements to continue evolving the system:
-
-
+Impact:
+- End-to-end automation achieved.
+- Transitioned from CI to CI/CD pipeline.
 - Introduce **database persistence** instead of in-memory storage.
 - Implement **retry mechanisms** for provider failures.
-- Add **CI/CD pipeline integration** (e.g., automated testing and deployment).
 - Add **metrics and monitoring** for system health.
 
 ---

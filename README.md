@@ -189,6 +189,12 @@ GitHub automatically runs CI pipeline and runs lint and  pytest regression whene
 - Jenkins used for pipeline-based CI to simulate enterprise workflows.
 - Jenkins pipeline designed to be extended for CD (deployment).
 
+## Jenkins CD 
+
+- Extended Jenkins pipeline to include deployment stage.
+- Application is automatically started after successful build.
+- Demonstrates Continuous Deployment workflow.
+- 
 ## Status Codes Used
 
 | HTTP Code | Meaning | Where Used |
