@@ -29,13 +29,25 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                 echo 'Stopping existing app (if running)...'
-                 bat 'taskkill /F /IM python.exe || exit 0'
-                 echo 'Deploying application...'
-                 dir('messaging-api-automation') {
-                     bat 'start "" python app.py'
-                 }
-            }
+            echo 'Stopping existing app (if running)...'
+             bat 'taskkill /F /IM python.exe || exit 0'
+
+            echo 'Starting Flask app in background...'
+            bat """
+             cd %WORKSPACE%
+             start "" python app.py
+             """
+             }
+        }
+
+       stage('Health Check') {
+             steps {
+               echo 'Checking application health...'
+              retry(5) {
+             sleep 2
+            bat 'curl -f http://localhost:5000/health'
+             }
+        }
         }
   }
   }
